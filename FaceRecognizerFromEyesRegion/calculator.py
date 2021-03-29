@@ -3,14 +3,21 @@ import numpy as np
 
 
 #Calculate the mean face
+from PIL import Image
+
+
 def equation2(images, number_of_faces):
     M = number_of_faces  # number of training faces
-    img1 = cv2.imread(images[0])
-    img2 = cv2.imread(images[1])
-    gama = [img1, img2]
-    mean_face = 1 / M * np.sum(gama)
+    gama = []
+    sum = 0
+    #Vector of pattern images
+    for i in range(0,M):
+        gama.append(images[i])
+    #Sommatory of pattern images
+    for i in gama:
+        sum = sum  + i
+    mean_face = 1 / M * sum
     return mean_face
-
 
 #Vector with differences between each face and mean face
 def equation3(faces, mean_face):
@@ -62,3 +69,7 @@ def equation10(test_face, faces):
         error = test_face - face
         errors.append(error)
     return np.min(errors)
+
+img1 = cv2.imread('face.png')
+img2 = cv2.imread('face2.png')
+equation2([img1,img2], 2)
