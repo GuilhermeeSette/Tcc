@@ -1,13 +1,10 @@
 import cv2
 import numpy as np
-
-
-#Calculate the mean face
 from PIL import Image
 
-
-def equation2(images, number_of_faces):
-    M = number_of_faces  # number of training faces
+#Calculate the mean face
+def equation2(images):
+    M = len(images)  # number of training faces
     gama = []
     sum = 0
     #Vector of pattern images
@@ -46,7 +43,7 @@ def equation7(hotelling_transform,faces, mean_face):
     for face in faces:
         omega_weight = transposed_hotelling_transform * (face - mean_face)
         omega_weights.append(omega_weight)
-    return omega_weight
+    return omega_weights
 
 
 ## Recognition Phase
@@ -68,8 +65,9 @@ def equation10(test_face, faces):
     for face in faces:
         error = test_face - face
         errors.append(error)
-    return np.min(errors)
+    #index, min_error
+    return [errors.index(np.min(errors)), np.min(errors)]
 
-img1 = cv2.imread('face.png')
-img2 = cv2.imread('face2.png')
-equation2([img1,img2], 2)
+# img1 = cv2.imread('face.png')
+# img2 = cv2.imread('face2.png')
+# equation2([img1,img2], 2)
