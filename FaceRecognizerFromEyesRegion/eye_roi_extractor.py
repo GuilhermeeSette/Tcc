@@ -10,9 +10,10 @@ eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml
 # cap = cv2.VideoCapture(1)
 
 
-def execute():
+def execute(image_path):
     eye_counter = 0
-    img = cv2.imread('FaceRecognizerFromEyesRegion/face.png')
+    # img = cv2.imread("./images/%s" % image_path)
+    img = cv2.imread("./%s" % image_path)
     while 1 and eye_counter < 10:
         # ret, img = cap.read()
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -32,7 +33,8 @@ def execute():
                 # define regiao dos olhos de interesse
                 roi_color_eye = roi_color[y2:(y - y2) + eh, 0:w]
                 # write image *before* drawing stuff on it
-                cv2.imwrite("FaceRecognizerFromEyesRegion/face.png", roi_color_eye)
+                # cv2.imwrite("./images/%s" % image_path, roi_color_eye)
+                cv2.imwrite("./%s" % image_path, roi_color_eye)
                 if eye_counter == 10:
                     quit()
                 eye_counter += 1

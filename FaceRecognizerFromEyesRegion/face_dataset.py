@@ -1,7 +1,9 @@
 import cv2
+import time
 
 
 def execute():
+    name = input("Digite o nome do dono da face: ")
     cam = cv2.VideoCapture(1)
     cam.set(3, 640)  # set video width
     cam.set(4, 480)  # set video height
@@ -23,13 +25,19 @@ def execute():
             count += 1
 
             cv2.imshow('image', img)
-
-        cv2.imwrite("FaceRecognizerFromEyesRegion/face.png", img)
-
+        time.sleep(3)
+        #cv2.imwrite("./images/%s.png" % name, img)
+        cv2.imwrite("./%s.png" % name, img)
         k = cv2.waitKey(100) & 0xff  # Press 'ESC' for exiting video
         if k == 27:
+            cam.release()
+            cv2.destroyAllWindows()
+            return f'{name}.png'
             break
         elif count >= 30:  # Take 30 face sample and stop video
+            cam.release()
+            cv2.destroyAllWindows()
+            return f'{name}.png'
             break
 
     # Do a bit of cleanup

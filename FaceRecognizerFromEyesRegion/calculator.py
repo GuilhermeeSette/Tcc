@@ -27,8 +27,11 @@ def equation3(faces, mean_face):
 
 #Eigenvector and Eigenvalues
 def equation5(differences_between_faces_mean_face):
-    transposed_differences_between_faces_mean_face = np.transpose(differences_between_faces_mean_face)
-    return differences_between_faces_mean_face * transposed_differences_between_faces_mean_face
+    differences_between_faces_mean_face = np.array(differences_between_faces_mean_face)
+    
+    # transposed_differences_between_faces_mean_face = np.transpose(differences_between_faces_mean_face)
+
+    return differences_between_faces_mean_face * differences_between_faces_mean_face.T
 
 
 #Hotelling transform
@@ -41,7 +44,7 @@ def equation7(hotelling_transform,faces, mean_face):
     omega_weights = []
     transposed_hotelling_transform = np.transpose(hotelling_transform)
     for face in faces:
-        omega_weight = transposed_hotelling_transform * (face - mean_face)
+        omega_weight = transposed_hotelling_transform * np.array((face - mean_face))
         omega_weights.append(omega_weight)
     return omega_weights
 
@@ -56,7 +59,7 @@ def equation8(hotelling_transform, projection_weights, mean_face):
 
 #Reconstruction error between the face and its reconstruction
 def equation9(face, reconstructed_face):
-    return abs(face - reconstructed_face)
+    return abs(np.linalg.norm((face - np.array(reconstructed_face))))
 
 
 #Minimum distance test_face and faces stored using K-NN technique
@@ -64,7 +67,7 @@ def equation10(test_face, faces):
     errors = []
     for face in faces:
         error = test_face - face
-        errors.append(error)
+        errors.append(np.linalg.norm(error))
     #index, min_error
     return [errors.index(np.min(errors)), np.min(errors)]
 
