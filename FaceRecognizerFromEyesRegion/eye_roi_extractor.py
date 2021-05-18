@@ -21,19 +21,15 @@ def execute(image_path):
 
         for (x, y, w, h) in faces:
             cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
-            # define regiao de interesse em cinza e em cor
             roi_gray = gray[y:y + h, x:x + w]
             roi_color = img[y:y + h, x:x + w]
 
             eyes = eye_cascade.detectMultiScale(roi_gray)
             for (ex, ey, ew, eh) in eyes:
                 y = int(0.5 * h)
-                y2 = int(y / 2.5)
-                # here's your eye-roi, see, it's the very same pattern
-                # define regiao dos olhos de interesse
-                roi_color_eye = roi_color[y2:(y - y2) + eh, 0:w]
-                # write image *before* drawing stuff on it
-                # cv2.imwrite("./images/%s" % image_path, roi_color_eye)
+                height = int(y / 2.5)
+                # Get roi through python array slicing
+                roi_color_eye = roi_color[height:(y - height) + eh, 0:w]
                 cv2.imwrite("./%s" % image_path, roi_color_eye)
                 if eye_counter == 10:
                     quit()
